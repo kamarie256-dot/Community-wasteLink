@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- Makes site work well on phones: page width = device width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community WasteLink</title>
+    <!-- Favicon: small logo shown in browser tab -->
+    <link rel="icon" type="image/png" href="images-index/fav2-1.png" alt="logo">
+<style>
+  
+    /* * = Applies to EVERY element. box-sizing: border-box makes padding + border included in width, so layout doesn't break */
+    * {
+       box-sizing: border-box; 
+      }
+
+    /* BODY = whole page. margin/padding = space around page, wheat = background, dark green text */
+    body {
+        margin: 10px;
+        padding: 10px;
+        border-radius: 16px; /* rounds page corners */
+        background-color: wheat;
+        color: #0B3D2E; /* dark green text color */
+        font-family: Arial, sans-serif;
+    }
+
+    /* HEADER = top banner with logo + title */
+    header {
+      background-color: wheat;
+      padding: 15px 20px;
+      display: flex; /* puts logo and text side-by-side in a row */
+      align-items: center; /* centers them vertically */
+      justify-content: center; /* centers them horizontally */
+      gap: 15px; /* space between logo and text */
+      color: #0B3D2E;
+      border-radius: 16px;
+      border: 2px solid #0B3D2E; /* dark green border */
+    }
+
+    /* NAV-WRAPPER = dark green bar that holds the menu. Sticky = stays at top when you scroll */
+    .nav-wrapper {
+      background-color:#0B3D2E; 
+      border-radius: 16px;
+      position: sticky; /* sticks to top of screen */
+      top: 10px;
+      z-index: 100; /* stays above other content */
+      margin-top: 10px;
+      margin-bottom: 10px;
+      border: 2px solid wheat;
+      display: flex; /* flex to center hamburger + menu */
+      justify-content: center;
+      align-items: center;
+      padding: 0 10px;
+    }
+
+    /* TOPNAV = the <ul> list of links */
+    ul.topnav {
+      display: flex; /* makes links sit in a horizontal row, not stacked */
+      list-style-type: none; /* removes bullet points */
+      margin: 0;
+      padding: 0;
+      background-color: transparent;
+      justify-content: center;
+    }
+
+    /* Each link inside the menu */
+    ul.topnav li a {
+      display: block;
+      color: wheat;
+      padding: 14px 16px; /* space inside each link = makes clickable area bigger */
+      text-decoration: none; /* removes underline */
+      border-radius: 16px;
+    }
+
+    /* Hover effect: when mouse is over link, background becomes wheat, text black */
+    ul.topnav li a:hover {
+      background-color: wheat;
+      color: black;
+    }
+
+    /* HAMBURGER = 3-lines button, hidden on desktop, only shown on phone */
+    .hamburger {
+      display: none; /* hidden on big screens */
+      font-size: 26px;
+      color: wheat;
+      background: none;
+      border: none;
+      cursor: pointer; /* shows hand cursor */
+      padding: 10px 14px;
+    }
+
+    /* FLEX-CONTAINER = main 3-column layout (Market Cleaning | Welcome | Bins) */
+    div.flex-container {
+      display: flex; /* main layout: puts the 3 <div> children side-by-side */
+      flex-direction: row; /* row = horizontal */
+      border-radius: 16px;
+      background-color: wheat;
+      border: 2px solid #0B3D2E;
+      gap: 10px; /* space between the 3 columns */
+      padding: 10px;
+    }
+
+    /* Each column inside flex-container */
+    div.flex-container > div {
+      margin: 0;
+      flex: 1; /* each column takes equal width */
+      min-width: 0; /* stops long text/image from breaking flex layout */
+    }
+
+    /* Middle column (2nd child) is wider: 1.6x the others */
+    div.flex-container > div:nth-child(2) {
+      flex: 1.6;
+    }
+    
+    /* FIGURE = image + caption box */
+    figure {
+      margin: 10px 0;
+      width: 100%; /* fills its column */
+      overflow: hidden; /* cuts off anything sticking out */
+      border-radius: 12px;
+      border: 2px solid #0B3D2E;
+      background: white;
+    }
+
+    /* Makes images responsive: never bigger than column, keeps proportions */
+    figure img {
+      width: 100%;
+      height: auto;
+      display: block; /* removes tiny gap under image */
+    }
+
+    /* MAIN-HERO = big middle image, forced to 16:9 shape, cropped nicely */
+    figure.main-hero img {
+      aspect-ratio: 16 / 9; /* width:height ratio */
+      object-fit: cover; /* crops image to fill box without stretching */
+    }
+
+    /* CAPTION = text under image */
+    figcaption {
+      padding: 8px 10px;
+      font-size: 14px;
+      line-height: 1.4; /* space between lines */
+      background: wheat;
+      color: #0B3D2E;
+      text-align: center;
+    }
+
+    /* MEDIA QUERY = rules that only apply on screens 600px or smaller (phones) */
+    @media screen and (max-width:600px) {
+      /* On phone, stack the 3 columns vertically instead of side-by-side */
+      div.flex-container { 
+        flex-direction: column;
+       }
+
+
+      /* Space out hamburger and menu */
+      .nav-wrapper {
+         justify-content: space-between;
+         }
+
+      /* Show hamburger button on phone */
+      .hamburger {
+         display: block;
+         }
+
+      /* Hide normal menu, turn it into dropdown */
+      ul.topnav {
+        display: none; /* hidden until hamburger clicked */
+        flex-direction: column; /* stack links vertically */
+        width: 100%;
+        position: absolute; /* floats below nav bar */
+        top: 100%; /* sits just under nav-wrapper */
+        left: 0;
+        background-color: #0B3D2E;
+        border-radius: 0 0 16px 16px;
+        border: 2px solid wheat;
+        border-top: none;
+      }
+
+      /* When JS adds .show class, menu appears */
+      ul.topnav.show {
+         display: flex;
+         }
+
+      ul.topnav li { 
+        text-align: center;
+       }
+    }
+
+    /* FOOTER = bottom dark green bar */
+    footer {
+        text-align: center;
+        background-color: #0B3D2E;
+        color: wheat;
+        border-radius: 16px;
+        padding: 10px;
+        margin-top: 10px;
+        border: 2px solid wheat;
+    }
+
+</style>
+</head>
+<body>
+
+<!-- The header section -->
+  <header>
+    <img src="images-index/fav2-1.png" alt="Logo" class="logo" width="100px" height="100px">
+    <div class="header-text">
+      <h1>Community Wastelink</h1>
+      <p><q>Welcome to Community WasteLink</q></p>
+    </div>
+  </header>
+
+  <!-- The navigation bar -->
+  <nav class="nav-wrapper">
+
+<!-- Hamburger button: only visible on mobile, calls toggleMenu() -->
+
+    <button class="hamburger" onclick="toggleMenu()">&#9776;</button>
+
+<!-- These are links in the menu -->
+    <ul class="topnav" id="myTopnav">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="schedule.html">Schedule</a></li>
+      <li><a href="report-a-problem.html">Report a problem</a></li>
+      <li><a href="track-report.html">Track report</a></li>
+        <li><a href="recycling.html">Recycling and material reuse</a></li>
+        <li><a href="Collections.html">Collection points</a></li>
+        <li><a href="wastemanagement.html">Waste seperation and Safe disposal</a></li>
+        <li><a href="Authorised.html">Authorized waste collectors</a></li>
+        <li><a href="notices.html">Notices</a></li>
+      <li><a href="faq.html">FAQ</a></li>
+    </ul>
+  </nav>
+
+  <!-- MAIN CONTENT: 3-column flex layout allows us to style the layout using css, appears in a one column if using a mobile phone portrait-->
+  <div class="flex-container">
+
+
+<!-- COLUMN 1: to appear on the Left side -->
+    <div>
+      <h2>Market Cleaning</h2>
+      <figure>
+        <img src="images-index/wm1.jpeg" alt="Volunteers clearing waste at Kireka Market">
+        <figcaption>Volunteers clearing waste at Kireka Market on Saturday morning.</figcaption>
+      </figure>
+      <p><em>Effective waste management in communities blends recycling, waste reduction, and public participation.</em></p>
+    <p>Modern methods move beyond landfilling toward smart, decentralized, and sustainable systems.</p>
+    </div>
+
+<!-- COLUMN 2: To appear in the Middle (wider) -->
+    <div>
+      <h2>Welcome to Community WasteLink</h2>
+      <figure class="main-hero">
+        <img src="images-index/w1.jpeg" alt="Friday Clean-up">
+      
+      <figcaption>Clean-up | Kireka Market 8am
+      <p>Join your neighbours. Bring gloves, we provide bags.</p>
+      </figcaption> 
+    </figure>
+    <p><em>Always remember that clealiness is not only healthy but also comfotable, a clean environment means comfortable working and resting environment.
+        </em></p><p> If you cannot do it, employ a willing party. Let's fight unnecessary flooding and diseases. Let our businesses thrive.</p>
+    </div>
+
+
+<!-- COLUMN 3: to appear on the right -->
+    <div>
+      <h2>Bins</h2>
+      <figure>
+        <img src="images-index/w3.jpeg" alt="Waste bins">
+        <figcaption>Organic, recyclable and general waste kept in separate bins.</figcaption>
+      </figure>
+
+      <!--emphasise em functions-->
+      <p><em>Power of Community-Led Initiatives|<br>
+<b>4R</b> concept (reduce, reuse, recycle, recover) drives cleaner, greener, and more economic outcomes.</em></p>
+<p>Several waste materials can be used for other important things and can be monetized too.</p>    
+</div>  
+  </div>
+
+
+  <!-- FOOTER -->
+  <footer>&copy Ranja Emmanuel Richard <br> Community WasteLink</footer>
+
+<script>
+// toggleMenu() = When the hamburger is clicked, it adds/removes .show class to show/hide mobile menu when you shrink it ti mobile phone view.
+function toggleMenu() {
+  document.getElementById("myTopnav").classList.toggle("show");
+}
+
+</script>
+
+</body>
+</html>
